@@ -1,0 +1,40 @@
+﻿@inject ToasterState toasterState
+@implements IDisposable
+
+<div class="position-fixed p-3" style="z-index: 5; right: 0;">
+    <div id="liveToast" class="@ToastClass" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-body">
+            @ToastMsg
+        </div>
+    </div>
+</div>
+
+@code {
+    private string ToastClass => (ShowLinkToast) ? "toast fade show" : "toast fade hide";
+    private bool ShowLinkToast = false;
+    public string ToastMsg { get; set; } = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        toasterState.OnChange += async () => await ShowToast();
+    }
+
+    public async Task ShowToast()
+    {
+        ToastMsg = toasterState.ToastText;
+
+        ShowLinkToast = true;
+        StateHasChanged();
+
+        await Task.Delay(6000);
+
+        ShowLinkToast = false;
+        StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+        toasterState.OnChange -= async () => await ShowToast();
+    }
+
+}

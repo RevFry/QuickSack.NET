@@ -1,0 +1,67 @@
+﻿@page "/"
+@inject HttpClient client
+@inject SearchState searchState
+@inject IJSRuntime jsRunTime
+@inject NavigationManager navManager
+@inject FeedRepository feedRepository 
+@implements IDisposable
+
+    <UpNextAlert></UpNextAlert>
+
+    <Toaster></Toaster>
+    
+    <div class="position-fixed p-3" style="z-index: 5; right: 0; bottom: 0;">
+        <button class="btn btn-dark float-right" style="opacity: .75;" onclick="javascript: window.scrollTo({top: 0,left: 0,behavior: 'smooth'});" ><span class="oi oi-chevron-top"></span></button>
+    </div>
+
+@if (Podcasts == null)
+{
+    <p class="text-white" ><em>Fetching sacks...</em></p>
+} else if(FilteredPodcasts.Count() == 0)
+{
+    <p class="text-white text-center">No Matching Episodes</p>
+}
+else
+{
+    <Virtualize Items="FilteredPodcasts" Context="pod" OverscanCount="6">
+        <PodcastCard pod="pod"></PodcastCard>
+    </Virtualize>
+}
+
+@code
+{
+    private List<FeedItem> Podcasts;
+
+    private List<FeedItem> FilteredPodcasts = new();
+
+    private string ToastClass => (ShowLinkToast) ? "toast fade show" : "toast fade hide";
+
+    private bool ShowLinkToast = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            Podcasts = await feedRepository.GetFeedItems();
+            PerformSearch();
+        } catch(Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+
+        searchState.OnChange += PerformSearch;
+
+        //Future show url: https://spreadsheets.google.com/feeds/cells/1LfDJd7_731VeKbXcYJMBJnK23kE6MbipC7mH2a0FWXk/1/public/full/R2C2?alt=json
+    }
+
+    public void PerformSearch()
+    {
+        FilteredPodcasts = (!string.IsNullOrEmpty(searchState.SearchText) && searchState.SearchTags.Count() > 0 && Podcasts != null) ? Podcasts.Where(x => searchState.SearchTags.Intersect(x.Tags).Count() == searchState.SearchTags.Count()).ToList() : Podcasts;
+        StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+        searchState.OnChange -= PerformSearch;
+    }
+}

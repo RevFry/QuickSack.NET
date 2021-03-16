@@ -1,0 +1,31 @@
+﻿@page "/episode/{id}"
+@inject HttpClient client
+@inject FeedRepository feedRepostiory
+
+@if (pod == null)
+{
+    <p class="text-white"><em>Preparing your sack...</em></p>
+}
+else
+{
+    <PodcastCard pod="pod"></PodcastCard>
+}
+
+@code {
+    [Parameter]
+    public string id { get; set; }
+
+    private FeedItem pod { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            pod = await feedRepostiory.GetFeedItem(HttpUtility.UrlDecode(id));
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+    }
+}

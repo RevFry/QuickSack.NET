@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>QuickSack .NET</title>
+    <meta property="og:title" content="QuickSack .NET" />
+    <meta property="og:url" content="https://quicksack.net" />
+    <meta property="og:image" content="https://quicksack.net/icon-512.png" />
+    <meta property="og:description" content="QuickSack.Net: The quick and easy way to look up Film Sack episodes." />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@codeweller" />
+    <base href="/" />
+    <link href="manifest.json" rel="manifest" />
+    <link rel="apple-touch-icon" sizes="512x512" href="icon-512.png" />
+    <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/app.css" rel="stylesheet" />
+    <link href="QuickSack.Client.styles.css" rel="stylesheet" />
+</head>
+
+<body>
+    <div id="app">
+        <div class="card">
+            <div class="card-body">
+                <h1 class="display-4">Oh sure...</h1>
+                <p class="lead">Quicksack .NET is loading now.</p>
+                <hr class="my-4">
+                <p>If this message isn't replaced with the site by now you probably don't have javascript enabled. Or you're using a browser that doesn't support WebAssembly.</p>
+                <p>You should probably catch up with the rest of the world.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="blazor-error-ui">
+        An unhandled error has occurred.
+        <a href="" class="reload">Reload</a>
+        <a class="dismiss">🗙</a>
+    </div>
+    <script src="_framework/blazor.webassembly.js"></script>
+    <script>navigator.serviceWorker.register('service-worker.js');</script>
+    <script type="text/javascript">window.clipboardCopy = {
+            copyText: function (text) {
+                navigator.clipboard.writeText(text).then(function () {
+                })
+                    .catch(function (error) {
+                        alert(error);
+                    });
+            }
+        };</script>
+</body>
+</html>

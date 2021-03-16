@@ -1,0 +1,22 @@
+﻿@inject HttpClient client
+
+<div class="alert alert-dark" role="alert">
+    <strong>Up Next!</strong> @NextShow
+</div>
+
+@code {
+    private string NextShow { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        string UpNextURL = "https://spreadsheets.google.com/feeds/cells/1LfDJd7_731VeKbXcYJMBJnK23kE6MbipC7mH2a0FWXk/1/public/full/R2C2?alt=json";
+        try
+        {
+            var result = await JsonDocument.ParseAsync(await client.GetStreamAsync(UpNextURL));
+            NextShow = result.RootElement.GetProperty("entry").GetProperty("content").GetProperty("$t").GetString();
+        } catch(Exception ex)
+        {
+            NextShow = "Can't grab next show at this time.";
+        }
+    }
+}
