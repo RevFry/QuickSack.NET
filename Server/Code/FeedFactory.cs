@@ -61,7 +61,14 @@ namespace QuickSack.Server.Code
         {
             List<NoteItem> noteItems = new();
 
-            XDocument document = XDocument.Load(url);
+            XDocument document = null;
+            try
+            {
+                document = XDocument.Load(url);
+            }catch(Exception ex)
+            {
+                return noteItems;
+            }
 
             noteItems = document.Root.Descendants().First(i => i.Name.LocalName == "channel")
                 .Elements().Where(i => i.Name.LocalName == "item")
