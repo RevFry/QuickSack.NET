@@ -1,0 +1,38 @@
+﻿@inject HttpClient client
+@using QuickSack.Shared
+@using System.Diagnostics
+
+<div class="card text-white bg-info mb-3">
+    <div class="card-header">Automated Replacement Host</div>
+    <div class="card-body">
+        <h5 class="card-title">Did I ever tell you about the time I discovered...</h5>
+        <p class="card-text">@HostText</p>
+        <p class="card-text"><small class="text-muted">Useless fact fetched from <a href="https://uselessfacts.jsph.pl">https://uselessfacts.jsph.pl</a> in @ToGenerate.Milliseconds ms with no insufferable ego required.</small></p>
+    </div>
+</div>
+
+@code {
+    private string HostText { get; set; }
+    private TimeSpan ToGenerate { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        string textUrl = "https://uselessfacts.jsph.pl/random.json?language=en";
+
+        Stopwatch stopwatch = new Stopwatch();
+
+        stopwatch.Start();
+
+        try
+        {
+            UselessHost UH = await client.GetFromJsonAsync<UselessHost>(textUrl);
+            HostText = UH.text;
+            stopwatch.Stop();
+            ToGenerate = stopwatch.Elapsed;
+        } catch(Exception ex)
+        {
+            HostText = "I failed to find anything to say?";
+        }
+
+    }
+}
