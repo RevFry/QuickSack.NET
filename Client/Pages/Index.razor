@@ -3,7 +3,8 @@
 @inject SearchState searchState
 @inject IJSRuntime jsRunTime
 @inject NavigationManager navManager
-@inject FeedRepository feedRepository 
+@inject FeedRepository feedRepository
+@inject IAnalytics Analytics
 @implements IDisposable
 
     <UpNextAlert></UpNextAlert>
@@ -58,6 +59,7 @@ else
 
     public void PerformSearch()
     {
+        Analytics.TrackEvent("Search", searchState.SearchText);
         FilteredPodcasts = (!string.IsNullOrEmpty(searchState.SearchText) && searchState.SearchTags.Count() > 0 && Podcasts != null) ? Podcasts.Where(x => searchState.SearchTags.Intersect(x.Tags).Count() == searchState.SearchTags.Count()).ToList() : Podcasts;
         StateHasChanged();
     }
