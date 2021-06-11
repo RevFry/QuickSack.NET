@@ -1,6 +1,5 @@
 using System;
 using System.Net.Http;
-using System.Net.Http.Json;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Text;
@@ -24,13 +23,7 @@ namespace QuickSack.Client
 
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
             builder.Services.AddBlazoredLocalStorage();
-
-            using(HttpClient httpClient = new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) })
-            {
-                GTag gTag = await httpClient.GetFromJsonAsync<GTag>("gtag.json");
-                builder.Services.AddGoogleAnalytics(gTag.GoogleTag);
-            }
-            
+            builder.Services.AddGoogleAnalytics("G-B2T863D9PL");
             builder.Services.AddScoped<FeedRepository>();
             builder.Services.AddSingleton<SearchState>();
             builder.Services.AddSingleton<ToasterState>();
