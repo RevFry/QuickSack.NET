@@ -449,3 +449,4 @@ $RECYCLE.BIN/
 
 app/*
 Client/wwwroot/img/*
+Client/wwwroot/gtag.json
