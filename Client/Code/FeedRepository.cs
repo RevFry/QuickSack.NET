@@ -27,7 +27,7 @@ public class FeedRepository
         if (await localStorage.ContainKeyAsync("FeedExpireDate")
             && await localStorage.ContainKeyAsync("FeedItems")
             && (await localStorage.GetItemAsync<DateTime>("FeedExpireDate"))
-                .CompareTo(DateTime.Now) > 0)
+                .CompareTo(DateTime.UtcNow) > 0)
         {
             FeedItems = await localStorage.GetItemAsync<List<FeedItem>>("FeedItems");
             return FeedItems;
@@ -35,7 +35,7 @@ public class FeedRepository
         else
         {
             FeedItems = await client.GetFromJsonAsync<List<FeedItem>>("api/Feed");
-            DateTime CachExpires = DateTime.Now.StartOfWeek(DayOfWeek.Monday).AddDays(7);
+            DateTime CachExpires = DateTime.UtcNow.StartOfWeek(DayOfWeek.Monday).AddDays(7);
             await localStorage.SetItemAsync("FeedItems", FeedItems);
             await localStorage.SetItemAsync("FeedExpireDate", CachExpires);
             return FeedItems;
@@ -48,5 +48,23 @@ public class FeedRepository
 
         FeedItem feedItem = FeedItems.FirstOrDefault(x => x.Title == Title);
         return await Task.FromResult(feedItem);
+    }
+
+    public async Task<string> GetNextEpisode()
+    {
+        if(await localStorage.ContainKeyAsync("NextExpireDate")
+            && await localStorage.ContainKeyAsync("NextEpisode")
+            && (await localStorage.GetItemAsync<DateTime>("NextExpireDate"))
+                .CompareTo(DateTime.UtcNow) > 0)
+        {
+            return await localStorage.GetItemAsync<string>("NextEpisode");
+        } else
+        {
+            string NextEpisode = await client.GetStringAsync("api/next");
+            DateTime CacheExpires = DateTime.UtcNow.AddDays(1);
+            await localStorage.SetItemAsync("NextEpisode", NextEpisode);
+            await localStorage.SetItemAsync("NextExpireDate", CacheExpires);
+            return NextEpisode;
+        }
     }
 }

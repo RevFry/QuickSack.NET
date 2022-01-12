@@ -7,12 +7,31 @@ namespace QuickSack.Server.Code;
 public interface IFeedFactory
 {
     List<FeedItem> GetFeedItems();
+    Task<string> NextEpisode();
 }
 
 public class FeedFactory : IFeedFactory
 {
     private readonly IMemoryCache memoryCache;
     public FeedFactory(IMemoryCache cache) => memoryCache = cache;
+
+    public async Task<string> NextEpisode()
+    {
+        HttpClient client = new HttpClient();
+        
+        string url = "https://quicksack.li";
+
+        HttpResponseMessage resp = await client.GetAsync(url);
+        var cont = resp.Content;
+        var contStr = await cont.ReadAsStringAsync();
+        string StartKey = "Upcoming Episode: ";
+        int startIndex = contStr.IndexOf(StartKey) + StartKey.Length;
+        int endIndex = contStr.IndexOf("</strong>", startIndex);
+
+        string Next = contStr.Substring(startIndex, (endIndex - startIndex));
+        
+        return Next;
+    }
 
     public List<FeedItem> GetFeedItems()
     {
