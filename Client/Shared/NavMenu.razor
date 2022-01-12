@@ -1,14 +1,14 @@
 ﻿@inject SearchState searchState
 <nav class="top-row px-4">
-    <NavLink class="navbar-brand text-dark mr-auto" href="" Match="NavLinkMatch.All">
+    <NavLink class="navbar-brand text-dark me-auto" href="" Match="NavLinkMatch.All">
         QuickSack <b>.NET</b>
     </NavLink>
-    <NavLink class="text-dark ml-2" href="about">
+    <NavLink class="text-dark ms-2" href="about">
         About
     </NavLink>
-    <div class="ml-4">
+    <div class="ms-4">
         <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" @bind-value="SearchTerm" @bind-value:event="oninput" type="search" placeholder="Search" aria-label="Search">
+            <input class="form-control me-sm-2" @bind-value="SearchTerm" @bind-value:event="oninput" type="search" placeholder="Search" aria-label="Search">
         </form>
     </div>
 </nav>
@@ -25,3 +25,4 @@
         }
     }
 }
+
