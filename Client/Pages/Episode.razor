@@ -3,6 +3,9 @@
 @inject FeedRepository feedRepostiory
 
 <PageTitle>QuickSack .NET - @pod.Title</PageTitle>
+<HeadContent>
+    <meta name="description" content="@pod.Description" />
+</HeadContent>
 
 @if (pod == null)
 {

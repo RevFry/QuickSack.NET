@@ -1,5 +1,7 @@
 ﻿
+using DSharpPlus.CommandsNext;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 var source = new CancellationTokenSource();
 
@@ -7,7 +9,12 @@ var config = new ConfigurationBuilder()
     .AddEnvironmentVariables(prefix: "qs_")
     .Build();
 
+var services = new ServiceCollection()
+    .AddSingleton<FeedFactory>()
+    .BuildServiceProvider();
+
 var dToken = config["token"];
+var token = source.Token;
 
 var client = new DiscordClient(new DiscordConfiguration
 {
@@ -15,9 +22,15 @@ var client = new DiscordClient(new DiscordConfiguration
     TokenType = TokenType.Bot
 });
 
-var token = source.Token;
+var commands = client.UseCommandsNext(new CommandsNextConfiguration()
+{
+    StringPrefixes = new[] { "!qs", ">" },
+    Services = services
+});
 
-await client.AddQSBot().ConnectAsync();
+commands.RegisterCommands<QSCommands>();
+
+await client.ConnectAsync();
 
 while (!token.IsCancellationRequested)
 {
