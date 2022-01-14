@@ -1,6 +1,6 @@
-﻿namespace QuickSack.Client.Code;
+﻿namespace QuickSack.Net.Bot;
 
-public static class Extensions
+public static class QSExtensions
 {
     public static DateTime StartOfWeek(this DateTime now, DayOfWeek startOfWeek)
     {

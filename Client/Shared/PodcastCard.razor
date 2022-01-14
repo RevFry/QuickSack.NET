@@ -4,7 +4,7 @@
 
 <div class="card bg-secondary text-white" style="margin-bottom: 25px;">
     <div class="card-body">
-        <p class="card-text float-right"><small>@pod.PublishDate.ToShortDateString()</small></p>
+        <p class="card-text float-end"><small>@pod.PublishDate.ToShortDateString()</small></p>
         <h5 class="card-title">@pod.Title</h5>
         <p class="card-text">@pod.Description</p>
         <audio controls preload="none">
@@ -12,9 +12,9 @@
             Your browser does not support the audio element.
         </audio>
         <br />
-        <button class="btn btn-dark float-right ml-4" title="Copy episode link" @onclick="() => CopyEpisodeLinkToClipboard(pod.Title)"><span class="oi oi-link-intact"></span></button>
-        <a class="btn btn-dark float-right ml-4" title="Show notes" href="@ShowNotes" target="_blank"><span class="oi oi-list"></span></a>
-        <NavLink class="btn btn-dark float-right ml-4" title="Go to episode" href="@EpisodeUrl">
+        <button class="btn btn-dark float-end ms-4" title="Copy episode link" @onclick="() => CopyEpisodeLinkToClipboard(pod.Title)"><span class="oi oi-link-intact"></span></button>
+        <a class="btn btn-dark float-end ms-4" title="Show notes" href="@ShowNotes" target="_blank"><span class="oi oi-list"></span></a>
+        <NavLink class="btn btn-dark float-end ms-4" title="Go to episode" href="@EpisodeUrl">
             <span class="oi oi-external-link"></span>
         </NavLink>
         <a href="@pod.Link" title="Download .mp3" class="btn btn-dark">.MP3</a>

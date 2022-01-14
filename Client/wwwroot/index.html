@@ -1,10 +1,10 @@
-﻿<!DOCTYPE html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>QuickSack .NET</title>
+    <title>QuickSack .Net</title>
     <meta property="og:title" content="QuickSack .NET" />
     <meta property="og:url" content="https://quicksack.net" />
     <meta property="og:image" content="https://quicksack.net/icon-512.png" />
@@ -12,11 +12,11 @@
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@codeweller" />
     <base href="/" />
-    <link href="manifest.json" rel="manifest" />
-    <link rel="apple-touch-icon" sizes="512x512" href="icon-512.png" />
     <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet" />
     <link href="css/app.css" rel="stylesheet" />
-    <link href="QuickSack.Client.styles.css" rel="stylesheet" />
+    <link href="QuickSack.Net.Client.styles.css" rel="stylesheet" />
+    <link href="manifest.json" rel="manifest" />
+    <link rel="apple-touch-icon" sizes="512x512" href="icon-512.png" />
 </head>
 
 <body>
@@ -40,7 +40,8 @@
     <script src="_framework/blazor.webassembly.js"></script>
     <script src="_content/Blazor-Analytics/blazor-analytics.js"></script>
     <script>navigator.serviceWorker.register('service-worker.js');</script>
-    <script type="text/javascript">window.clipboardCopy = {
+    <script type="text/javascript">
+        window.clipboardCopy = {
             copyText: function (text) {
                 navigator.clipboard.writeText(text).then(function () {
                 })
@@ -48,6 +49,8 @@
                         alert(error);
                     });
             }
-        };</script>
+        };
+    </script>
 </body>
+
 </html>
