@@ -27,7 +27,8 @@ public class QSCommands : BaseCommandModule
 
         results.ForEach(item =>
         {
-            sb.AppendLine($"{item.Title} - https://quicksack.net/episode/{HttpUtility.UrlEncode(item.Title)}");
+            var epUrl = new Uri($"https://quicksack.net/episode/{HttpUtility.UrlEncode(item.Title)}");
+            sb.AppendLine($"{item.Title} - {Formatter.EmbedlessUrl(epUrl)}");
         });
 
         await context.RespondAsync(sb.ToString());
@@ -51,7 +52,9 @@ public class QSCommands : BaseCommandModule
         var feed = await feedFactory.GetFeed();
         var item = feed.First();
 
-        await context.RespondAsync($"{item.Title} - https://quicksack.net/episode/{HttpUtility.UrlEncode(item.Title)}");
+        var Uri = new Uri($"https://quicksack.net/episode/{HttpUtility.UrlEncode(item.Title)}");
+
+        await context.RespondAsync($"{item.Title} - {Formatter.EmbedlessUrl(Uri)}");
     }
 
     [Command("details")]
@@ -64,7 +67,7 @@ public class QSCommands : BaseCommandModule
         string result = "I'm having trouble finding those details.";
 
         if(item != null) {
-            result = $"{item.Title} - {item.PublishDate.ToShortDateString()}\n{item.Description}";
+            result = $"{item.Title} - {item.PublishDate.ToShortDateString()}\n{Formatter.InlineCode(item.Description)}";
         }
 
         await context.RespondAsync(result);
@@ -78,6 +81,7 @@ public class QSCommands : BaseCommandModule
         await context.TriggerTypingAsync();
 
         string textUrl = "https://uselessfacts.jsph.pl/random.json?language=en";
+        var UrlUri = new Uri("https://uselessfact.jsph.pl");
         string HostText = string.Empty;
 
         Stopwatch stopwatch = new Stopwatch();
@@ -96,7 +100,7 @@ public class QSCommands : BaseCommandModule
                 StringBuilder sb = new StringBuilder();
                 sb.Append("Did I ever tell you about the time I discovered... ");
                 sb.AppendLine(HostText);
-                sb.AppendLine("Useless fact fetched from https://uselessfacts.jsph.pl in ");
+                sb.AppendLine($"Useless fact fetched from {Formatter.EmbedlessUrl(UrlUri)} in ");
                 sb.Append(ToGenerate.TotalMilliseconds.ToString());
                 sb.AppendLine("ms with no insufferable ego required.");
                 HostText = sb.ToString();
