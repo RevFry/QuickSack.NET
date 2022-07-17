@@ -1,4 +1,5 @@
 ﻿using DSharpPlus.CommandsNext.Attributes;
+using Microsoft.Extensions.Logging;
 using QuickSack.Shared;
 using System.Diagnostics;
 using System.Net.Http.Json;
@@ -15,6 +16,8 @@ public class QSCommands : BaseCommandModule
     [Description("Search for existing show")]
     public async Task SearchCommand(CommandContext context, [RemainingText, Description("Text to query against the episode title and description")] string query)
     {
+        context.Client.Logger.LogInformation($"{context.User.Username} searched for the next: {query}.");
+
         await context.TriggerTypingAsync();
 
         List<FeedItem> results = await feedFactory.Search(query);
@@ -38,6 +41,8 @@ public class QSCommands : BaseCommandModule
     [Description("Get the next episode planned for the show")]
     public async Task NextShowCommand(CommandContext context)
     {
+        context.Client.Logger.LogInformation($"{context.User.Username} asked for the next show.");
+
         string NextEpisode = await feedFactory.GetNextEpisode();
         if (string.IsNullOrEmpty(NextEpisode)) { NextEpisode = "Unable to grab the next episode at the moment."; }
         await context.RespondAsync($"Looks like the next episdoe is {NextEpisode}");
@@ -47,6 +52,8 @@ public class QSCommands : BaseCommandModule
     [Description("Get the last episode of the show")]
     public async Task LastShowCommand(CommandContext context)
     {
+        context.Client.Logger.LogInformation($"{context.User.Username} asked for the last show.");
+
         await context.TriggerTypingAsync();
 
         var feed = await feedFactory.GetFeed();
@@ -61,6 +68,8 @@ public class QSCommands : BaseCommandModule
     [Description("Get details for a given episode")]
     public async Task DetailsCommand(CommandContext context, [Description("episode number to get details for")] string episode)
     {
+        context.Client.Logger.LogInformation($"{context.User.Username} asked for info for episode: {episode}");
+
         var feed = await feedFactory.GetFeed();
         var item = feed.FirstOrDefault(x => x.Title.Contains(episode));
 
@@ -79,6 +88,8 @@ public class QSCommands : BaseCommandModule
     public async Task HostCommand(CommandContext context)
     {
         await context.TriggerTypingAsync();
+
+        context.Client.Logger.LogInformation($"{context.User.Username} asked for a replacement host.");
 
         string textUrl = "https://uselessfacts.jsph.pl/random.json?language=en";
         var UrlUri = new Uri("https://uselessfact.jsph.pl");
