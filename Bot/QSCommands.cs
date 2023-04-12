@@ -91,7 +91,7 @@ public class QSCommands : BaseCommandModule
 
         context.Client.Logger.LogInformation($"{context.User.Username} asked for a replacement host.");
 
-        string textUrl = "https://uselessfacts.jsph.pl/random.json?language=en";
+        string textUrl = "https://uselessfacts.jsph.pl/api/v2/facts/random?language=en";
         var UrlUri = new Uri("https://uselessfact.jsph.pl");
         string HostText = string.Empty;
 
