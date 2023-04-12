@@ -3,8 +3,8 @@
 @using System.Diagnostics
 
 <div class="card text-white bg-info mb-3">
-    <div class="card-header">Automated Replacement Host</div>
-    <div class="card-body">
+    <div class="card-header text-dark">Automated Replacement Host</div>
+    <div class="card-body text-dark">
         <h5 class="card-title">Did I ever tell you about the time I discovered...</h5>
         <p class="card-text">@HostText</p>
         <p class="card-text"><small class="text-muted">Useless fact fetched from <a href="https://uselessfacts.jsph.pl">https://uselessfacts.jsph.pl</a> in @ToGenerate.Milliseconds ms with no insufferable ego required.</small></p>
@@ -14,10 +14,11 @@
 @code {
     private string HostText { get; set; }
     private TimeSpan ToGenerate { get; set; }
+    public UselessHost uselessHost { get; set; } = null;
 
     protected override async Task OnInitializedAsync()
     {
-        string textUrl = "https://uselessfacts.jsph.pl/random.json?language=en";
+        string textUrl = "https://uselessfacts.jsph.pl/api/v2/facts/random?language=en";
 
         Stopwatch stopwatch = new Stopwatch();
 
@@ -26,6 +27,7 @@
         try
         {
             UselessHost UH = await client.GetFromJsonAsync<UselessHost>(textUrl);
+            uselessHost = UH;
             HostText = UH.text;
             stopwatch.Stop();
             ToGenerate = stopwatch.Elapsed;
