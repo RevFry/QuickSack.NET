@@ -13,5 +13,5 @@
             "sizes": "512x512"
         }
     ],
-    "version": "$(Version)"
+    "version": "1.0.1"
 }
