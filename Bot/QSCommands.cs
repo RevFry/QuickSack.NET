@@ -83,13 +83,13 @@ public class QSCommands : BaseCommandModule
     }
 
     [Hidden]
-    [Command("dlx")]
-    [Description("Replacement a host")]
+    [Command("fact")]
+    [Description("Trivia")]
     public async Task HostCommand(CommandContext context)
     {
         await context.TriggerTypingAsync();
 
-        context.Client.Logger.LogInformation($"{context.User.Username} asked for a replacement host.");
+        context.Client.Logger.LogInformation($"{context.User.Username} asked for Trivia.");
 
         string textUrl = "https://uselessfacts.jsph.pl/api/v2/facts/random?language=en";
         var UrlUri = new Uri("https://uselessfact.jsph.pl");
@@ -109,11 +109,11 @@ public class QSCommands : BaseCommandModule
                 var ToGenerate = stopwatch.Elapsed;
                 
                 StringBuilder sb = new StringBuilder();
-                sb.Append("Did I ever tell you about the time I discovered... ");
+                sb.Append("Did you know... ");
                 sb.AppendLine(HostText);
                 sb.AppendLine($"Useless fact fetched from {Formatter.EmbedlessUrl(UrlUri)} in ");
                 sb.Append(ToGenerate.TotalMilliseconds.ToString());
-                sb.AppendLine("ms with no insufferable ego required.");
+                sb.AppendLine("ms.");
                 HostText = sb.ToString();
             }
             catch (Exception ex)
